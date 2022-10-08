@@ -19,3 +19,22 @@ expect(x).toBeLessThan(y)        // Verifica si el valor actual es menor que el 
 expect(x).toBeGreaterThan(y)     // Verifica si el valor actual es mayor que el esperado.
 expect(x).toBeNegativeInfinity() // Verifica si el valor actual es Infinity
 expect(x).toBePositiveInfinity() // Verifica si el valor actual es null
+
+// Usando regex para comparar comparar cadenas de texto
+describe('jasmine.stringMatching', () => {
+    it("matches as a regexp", () => {
+      expect({foo: 'bar'})
+        .toEqual({foo: jasmine.stringMatching(/^bar$/)});
+      expect({foo: 'foobarbaz'})
+        .toEqual({foo: jasmine.stringMatching('bar')});
+    });
+  
+  describe("when used with a spy", () => {
+      it("comparing arguments", () => {
+        const callback = jasmine.createSpy('callback');
+        callback('foobarbaz');
+        expect(callback).toHaveBeenCalledWith(jasmine.stringMatching('bar'));
+        expect(callback).not.toHaveBeenCalledWith(jasmine.stringMatching(/^bar$/));
+      });
+    })
+});
